@@ -47,6 +47,22 @@ class User:
     except sql.ProgrammingError:
         raise self.Errors.InvalidDataBaseError("No database selected") if (self._database == None) else self.Errors.InvalidSQLQueryError("Invalid Query")
 
+  # Clones a database
+  def cloneDatabase(self, initial:str, final:str):
+    self.setDatabase("")
+    if self.connection:
+      cur = self.connection.cursor() 
+      cur.execute("create database " + initial)
+    self.setDatabase(final)
+    if self.connection:
+      cur = self.connection.cursor()
+      cur.execute("show tables")
+      tables = cur.fetchall()
+      test: list[tuple[str]] = [("h", )]
+
+      if type(tables) == list[tuple[str]]:
+        pass
+
   # Errors
   class Errors:
     class InvalidUserError(Exception):

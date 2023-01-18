@@ -57,20 +57,27 @@ class Admin:
  
 def matchData():
   
-  adminID = int(input("Enter Admin ID : "))
-  adminPasswd = str(input("Enter Password : "))
-  adminData = open("./.admin/adminUsers.csv", "r")
-  reader = csv.reader(adminData)
+  try:
+    adminID = int(input("Enter Admin ID : "))
+    adminPasswd = str(input("Enter Password : "))
+    adminData = open("./.admin/adminUsers.csv", "r")
+    reader = csv.reader(adminData)
 
-  for row in reader:
-    if (int(adminID) == int(row[0]) and str(adminPasswd) == str(row[1])):
-      while True:
-          try:
-            user = str(input("Enter Username : "))
-            passwd = str(input("Enter Password : "))
-            ur = User(username=user, password=passwd)
-            break
-          except Errors.InvalidUserError:
-            print("Invalid Username or Password")
-      return Admin(adminID, adminPasswd, ur)
+
+    for row in reader:
+      if (int(adminID) == int(row[0]) and str(adminPasswd) == str(row[1])):
+        while True:
+            try:
+              user = str(input("Enter Username : "))
+              passwd = str(input("Enter Password : "))
+              ur = User(username=user, password=passwd)
+              break
+            except Errors.InvalidUserError:
+              print("Invalid Username or Password")
+        return Admin(adminID, adminPasswd, ur)
+
+  except ValueError:
+    print("Admin ID must be a password")
+
   return False
+  
