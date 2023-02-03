@@ -1,4 +1,1 @@
-session started at - 22:54:59Invalid User Error faced
-Invalid Database Error faced
-An Unknown Error occured
-An Invalid SQL query executedSomeone logged in as Admin
+session started at - 21:37:21Invalid Database Error faced

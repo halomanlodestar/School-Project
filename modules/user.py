@@ -5,7 +5,7 @@ import mysql.connector as sql
 
 class User:
   host = "localhost"
-  connection = None
+  connection = sql.connect()
   _database = None
   __username = None
   __password = None
@@ -34,6 +34,18 @@ class User:
       self.connection = sql.connect(host=self.host, user=self.__username, passwd=self.__password, database=self._database)
     except sql.ProgrammingError:
       raise self.Errors.InvalidDataBaseError("Invalid Database")
+
+  # Inputs ID to be searched and the name of the table to be searched in
+  def searchUserByID(self, id:str, table:str):
+    cur = self.connection.cursor()
+    cur.execute("SELECT * FROM {} WHERE no = {}".format(table, id))
+    return cur.fetchall()
+
+
+  def fetchAllData(self, table:str):
+    cur = self.connection.cursor()
+    cur.execute("SELECT * FROM " + table)
+    return cur.fetchall() if cur.fetchall() else []
   
   # Takes a mySQL query in the string format as Input
   # Returns a valid output from my mysql (mostly lists)
@@ -43,37 +55,45 @@ class User:
         cur = self.connection.cursor()
         cur.execute(query)
         writeUser(str(self.__username), datetime.datetime.now().strftime("%H:%M:%S"), "Query : " + query)
-        return cur.fetchall()
+        return cur.fetchall() # if cur.fetchall() else []
     except sql.ProgrammingError:
         raise self.Errors.InvalidDataBaseError("No database selected") if (self._database == None) else self.Errors.InvalidSQLQueryError("Invalid Query")
 
-  # Clones a database
-  def cloneDatabase(self, initial:str, final:str):
-    self.setDatabase("")
-    if self.connection:
-      cur = self.connection.cursor() 
-      cur.execute("create database " + initial)
-    self.setDatabase(final)
-    if self.connection:
-      cur = self.connection.cursor()
-      cur.execute("show tables")
-      tables = cur.fetchall()
-      test: list[tuple[str]] = [("h", )]
+  # TODO Clones a database
+  # def cloneDatabase(self, initial:str, final:str):
+  #   self.setDatabase("")
+  #   if self.connection:
+  #     cur = self.connection.cursor() 
+  #     cur.execute("create database " + initial)
+  #   self.setDatabase(final)
+  #   if self.connection:
+  #     cur = self.connection.cursor()
+  #     cur.execute("show tables")
+  #     tables = cur.fetchall()
+  #     test: list[tuple[str]] = [("h", )]
 
-      if type(tables) == list[tuple[str]]:
-        pass
+  #     if type(tables) == list[tuple[str]]:
+  #       pass
 
   # Errors
   class Errors:
     class InvalidUserError(Exception):
-      print(Exception)
-      writeLog("Invalid User Error faced\n")
+      def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+        # print(Exception)
+        writeLog("Invalid User Error faced\n")
     class InvalidDataBaseError(Exception):
-      print(Exception)
-      writeLog("Invalid Database Error faced\n")
+      def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+        # print(Exception)
+        writeLog("Invalid Database Error faced\n")
     class UnknownError(Exception):
-      print(Exception)
-      writeLog("An Unknown Error occured\n")
+      def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+        # print(Exception)
+        writeLog("An Unknown Error occured\n")
     class InvalidSQLQueryError(Exception):
-      print(Exception)
-      writeLog("An Invalid SQL query executed")
+      def __init__(self, *args: object) -> None:
+        super().__init__(*args)
+        # print(Exception)
+        writeLog("An Invalid SQL query executed")

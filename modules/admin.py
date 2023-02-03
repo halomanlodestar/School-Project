@@ -1,8 +1,8 @@
 import os
 import csv
 from modules.logs import writeLog, readLog
-from modules.login import writeUser
-from modules.login import User
+from modules.user import writeUser
+from modules.user import User
 
 Errors = User.Errors
 
@@ -36,6 +36,7 @@ class Admin:
             try:
               query = str(input("Enter a query : "))
               print(self._user.query(query))
+              
             except Errors.InvalidSQLQueryError:
               print("Invalid Query")
 

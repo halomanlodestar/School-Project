@@ -1,0 +1,72 @@
+root,19:32:28,logged in
+root,19:32:56,logged in
+root,19:34:18,logged in
+root,19:35:10,logged in
+root,19:35:47,logged in
+root,19:37:30,logged in
+root,19:37:36,Query : SHOW TABLES
+root,19:37:56,Query : SHOW TABLES
+root,19:37:58,Query : SHOW TABLES
+root,19:39:30,logged in
+root,19:39:33,Query : SHOW TABLES
+root,19:45:38,logged in
+root,19:45:39,Query : SHOW TABLES
+root,19:45:58,Query : SHOW TABLES
+root,19:47:35,logged in
+root,19:47:36,Query : SHOW TABLES
+root,19:50:14,logged in
+root,19:50:19,Query : SHOW TABLES
+root,19:51:30,logged in
+root,19:51:31,Query : SHOW TABLES
+root,19:54:46,logged in
+root,19:54:47,Query : SHOW TABLES
+root,19:56:57,logged in
+root,19:56:58,Query : SHOW TABLES
+root,20:00:20,logged in
+root,20:00:21,Query : SHOW TABLES
+root,20:35:57,logged in
+root,20:36:27,logged in
+root,20:39:33,Query : show tables
+root,20:46:17,Query : show tables
+root,20:47:17,Query : show tables
+root,20:47:29,Query : show tables;
+root,20:50:16,Query : show tables
+root,20:50:40,Query : select * from employee
+root,20:51:13,logged in
+root,20:51:14,Query : SHOW TABLES
+root,20:51:19,Query : SELECT * FROM employee
+root,20:51:19,Query : SHOW TABLES
+root,20:52:04,logged in
+root,20:52:54,Query : desc employee
+root,20:56:32,logged in
+root,20:57:28,logged in
+root,20:59:02,logged in
+root,20:59:29,logged in
+root,21:04:07,logged in
+root,21:10:28,logged in
+root,21:10:29,Query : SHOW TABLES
+root,21:11:57,logged in
+root,21:11:58,Query : SHOW TABLES
+root,21:14:04,logged in
+root,21:14:05,Query : SHOW TABLES
+root,21:14:37,logged in
+root,21:14:38,Query : SHOW TABLES
+root,21:15:02,logged in
+root,21:15:05,Query : SHOW TABLES
+root,21:20:39,logged in
+root,21:24:49,logged in
+root,21:27:38,logged in
+root,21:27:40,Query : SHOW TABLES
+root,21:27:46,Query : SELECT * FROM employee
+root,21:31:04,logged in
+root,21:31:05,Query : SHOW TABLES
+root,21:32:33,logged in
+root,21:32:34,Query : SHOW TABLES
+root,21:32:38,Query : SELECT * FROM employee
+root,21:33:08,logged in
+root,21:33:09,Query : SHOW TABLES
+root,21:33:12,Query : SELECT * FROM employee
+root,21:33:12,Query : SHOW TABLES
+root,21:35:54,logged in
+root,21:37:07,logged in
+root,21:37:27,logged in

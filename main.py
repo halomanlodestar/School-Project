@@ -1,9 +1,8 @@
 import datetime
-from modules.logs import writeLog
-from modules.logs import writeUser
-from modules.login import User
-from modules.admin import Admin
+from modules.logs import writeLog, writeUser
+from modules.user import User
 from modules.admin import matchData
+from modules.staticFunctions import printDatabase, printRows, printTables
  
 Errors = User.Errors
 
@@ -30,49 +29,70 @@ class Console:
             if (self.ur.connection):
               while True:
                 try:
-                  db = str(input(str(self.ur.getDatabases()) + "\nSelect a database : "))
-                  self.ur.setDatabase(db)
-                  writeUser(self.name ,datetime.datetime.now().strftime("%H:%M:%S"), "logged in")
-                  print("Successfully Logged in as Guest")
-                  break
+                    printDatabase(self.ur.getDatabases())
+                  # databases = self.ur.getDatabases()
+                  # if databases != None:
+                  #   for database in databases:
+                  #     print(database, end=" | ")
+                    
+                    db = str(input("\nSelect a database : "))
+                    self.ur.setDatabase(db)
+                    writeUser(self.name ,datetime.datetime.now().strftime("%H:%M:%S"), "logged in")
+                    print("Successfully Logged in as Guest")
+                    break
                 
                 except Errors.InvalidDataBaseError:
                   print("Invalid Database")
-            
+            break
           except Errors.InvalidUserError:
             print("Invalid Username or Password")
 
-          while True:
-            menuChoice = int(input('''
-                  *** Guest Menu ***
-            1. Fetch Data
-            2. Choose new database
-            3. Back
-            '''))
+        while True:
+          menuChoice = int(input('''
+                *** Guest Menu ***
+          1 - Fetch All Data
+          2 - Search User by ID
+          3 - Filter Data
+          4 - Choose new database
+          5 - Back
+          '''))
 
-            if menuChoice == 1:
-              while True:
-                try:
-                  print(self.ur.query("SHOW TABLES"))
-                  table = str(input("Choose a table : "))
-                  if table.lower() == "exit": break
-                  print(self.ur.query("SELECT * FROM " + table))
-                except Errors.InvalidSQLQueryError:
-                    print("Please choose a valid table")
+          if menuChoice == 1:
+            while True:
+              try:
+                tables = self.ur.query("SHOW TABLES")
+                if tables:
+                  printTables(tables)
+                  pass
+                else: print("No table found")
+                table = str(input("\nChoose a table : ")) if tables else "exit"
+                if table.lower() == "exit": break
+                printRows(self.ur.query("SELECT * FROM " + table))
+              except Errors.InvalidSQLQueryError:
+                  print("Please choose a valid table")
+            continue
 
-            if menuChoice == 2:
-              while True:
-                try:
-                  db = str(input(str(self.ur.getDatabases()) + "\nSelect a database : "))
-                  self.ur.setDatabase(db)
-                  print("Successfully selected new Database")
-                  break
-                except Errors.InvalidDataBaseError:
-                  print("Invalid Database")
+          if menuChoice == 2:
+            choice = "Y"
+            while choice.upper() == "Y":
+              id = str(input("Enter ID to be seached : "))
+              table = str(input("Enter the name of the Table : "))
+              print(self.ur.searchUserByID(id, table))
+              choice = str(input("Do you want to search another record? (Y/N) : "))[0]
+            pass
 
-            if menuChoice == 3:
-              break
-          break
+          if menuChoice == 4:
+            while True:
+              try:
+                printDatabase(self.ur.getDatabases()) 
+                db = str(input(str("\nSelect a database : ")))
+                self.ur.setDatabase(db)
+                print("Successfully selected new Database")
+                break
+              except Errors.InvalidDataBaseError:
+                print("Invalid Database")
+
+          else: break
       
       if mainMenuChoice == 2:
         while True:
@@ -81,9 +101,10 @@ class Console:
             self.name = user
             passwd = str(input("Enter Password : "))
             self.ur = User(username=user, password=passwd)
-            while True:
+            while True and self.ur.connection:
               try:
-                db = str(input(str(self.ur.getDatabases()) + "\nSelect a database : "))
+                printDatabase(self.ur.getDatabases())
+                db = str(input("\nSelect a database : "))
                 self.ur.setDatabase(db)
                 writeUser(self.name ,datetime.datetime.now().strftime("%H:%M:%S"), "logged in")
                 print("Successfully Logged in as Guest")
@@ -91,44 +112,56 @@ class Console:
 
               except Errors.InvalidDataBaseError:
                 print("Invalid Database")
-        
+            break
           except Errors.InvalidUserError:
             print("Invalid Username or Password")
 
-          while True:
-            menuChoice = int(input('''
-                  *** Employee Menu ***
-            1. Query mySQL
-            2. Choose new database
-            3. Back
-            '''))
+        while True:
+          menuChoice = int(input('''
+                *** Employee Menu ***
+          1 - Fetch  all Data
+          2 - Search User by ID
+          3 - Search User by data
+          4 - Get Filtered Data
+          5 - Insert Data
+          6 - Choose new database
+          7 - Back
+          '''))
 
-            if menuChoice == 1:
-              while True:
-                try:
-                  query = str(input("Enter a valid mySQL query : "))
-                  if (query.lower() == "exit"): break
-                  print(self.ur.query(query))
-                except Errors.InvalidSQLQueryError:
-                    print("Invalid Syntax, please execute a valid mySQL query")
+          if menuChoice == 1:
+            while True:
+              try:
+                table = str(input("Enter the name of the table : "))
+                if (table.lower() == "exit"): break
+                print(self.ur.fetchAllData(table))
+              except Errors.InvalidSQLQueryError or TypeError:
+                  print("Invalid Syntax, please execute a valid mySQL query")
 
-            if menuChoice == 2:
-              while True:
-                try:
-                  db = str(input(str(self.ur.getDatabases()) + "\nSelect a database : "))
-                  self.ur.setDatabase(db)
-                  print("Successfully selected new Database")
-                  break
-                except Errors.InvalidDataBaseError:
-                  print("Invalid Database")
+          if menuChoice == 2:
+            while True:
+              pass
 
-            if menuChoice == 3:
-              break
+          if menuChoice == 6:
+            while True:
+              try:
+                printDatabase(self.ur.getDatabases())
+                db = str(input("\nSelect a database : "))
+                self.ur.setDatabase(db)
+                print("Successfully selected new Database")
+                break
+              except Errors.InvalidDataBaseError or TypeError:
+                print("Invalid Database")
+
+          else:
+            break
 
       if mainMenuChoice == 3:
         admin = matchData()
         if (admin):
           admin.proceed()
+
+      if mainMenuChoice == 4:
+        exit()
 
 class Gui:
   def __init__(self) -> None:
