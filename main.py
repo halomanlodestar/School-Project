@@ -3,7 +3,7 @@ from modules.logs import writeLog, writeUser
 from modules.user import User
 from modules.admin import matchData
 from modules.staticFunctions import printDatabase, printRows, printTables
- 
+
 Errors = User.Errors
 
 class Console:
@@ -30,10 +30,6 @@ class Console:
               while True:
                 try:
                     printDatabase(self.ur.getDatabases())
-                  # databases = self.ur.getDatabases()
-                  # if databases != None:
-                  #   for database in databases:
-                  #     print(database, end=" | ")
                     
                     db = str(input("\nSelect a database : "))
                     self.ur.setDatabase(db)
@@ -52,7 +48,6 @@ class Console:
                 *** Guest Menu ***
           1 - Fetch All Data
           2 - Search User by ID
-          3 - Filter Data
           4 - Choose new database
           5 - Back
           '''))
@@ -80,6 +75,7 @@ class Console:
               print(self.ur.searchUserByID(id, table))
               choice = str(input("Do you want to search another record? (Y/N) : "))[0]
             pass
+            continue
 
           if menuChoice == 4:
             while True:
@@ -121,9 +117,8 @@ class Console:
                 *** Employee Menu ***
           1 - Fetch  all Data
           2 - Search User by ID
-          3 - Search User by data
-          4 - Get Filtered Data
-          5 - Insert Data
+          4 - Insert Data
+          5 - Update a user
           6 - Choose new database
           7 - Back
           '''))

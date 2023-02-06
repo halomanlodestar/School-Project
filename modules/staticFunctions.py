@@ -1,14 +1,16 @@
 def printDatabase(databases):
-    for database in databases:
-        print(database, end = " | ")
-    pass
+	for database in databases:
+		print(database, end = " | ")
+	pass
 
 def printTables(tables):
-    for [row] in tables:
-        print(row, end=" | ")
-    pass
+	for [row] in tables:
+		print(row, end=" | ")
+	input("Enter to continue")
+	pass
 
 def printRows(rows):
-    for row in rows:
-        print(row)
-    pass
+  for row in rows:
+    print(row)
+  input("Enter to continue")
+  pass

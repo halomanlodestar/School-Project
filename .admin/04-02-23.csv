@@ -1,0 +1,6 @@
+root,16:34:39,logged in
+root,16:34:41,Query : SHOW TABLES
+root,16:34:44,Query : SELECT * FROM employee
+root,16:34:44,Query : SHOW TABLES
+root,16:35:01,logged in
+root,16:35:33,Query : desc employee

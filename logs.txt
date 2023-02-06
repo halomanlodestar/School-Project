@@ -1,1 +1,1 @@
-session started at - 21:37:21Invalid Database Error faced
+session started at - 23:51:53An Invalid SQL query executed

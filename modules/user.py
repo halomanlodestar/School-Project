@@ -25,6 +25,15 @@ class User:
       cur.execute("SHOW DATABASES;")
       data: Any = cur.fetchall()
       return [database for [( database )] in data]
+    
+  def switchHost(self, hostname):
+    self.host = hostname
+    self.connection = sql.connect(
+      host=self.host,
+      user=self.__username,
+      passwd=self.__password
+      )
+    pass
 
   # Inputs a valid database and creates a new connection with that database
   # If database is invalid, throws "InvalidDatabaseError"
@@ -41,11 +50,16 @@ class User:
     cur.execute("SELECT * FROM {} WHERE no = {}".format(table, id))
     return cur.fetchall()
 
-
   def fetchAllData(self, table:str):
     cur = self.connection.cursor()
     cur.execute("SELECT * FROM " + table)
     return cur.fetchall() if cur.fetchall() else []
+  
+  def updateUser(self, table:str, id:str, data:dict):
+    cur = self.connection.cursor()
+    cur.execute("UPDATE {} SET name = '{}', zone = '{}' grade = '{}' WHERE eno = {}".format(table, data["name"], data["zone"], data["grade"], id))
+    self.connection.commit()
+    pass
   
   # Takes a mySQL query in the string format as Input
   # Returns a valid output from my mysql (mostly lists)
@@ -58,22 +72,6 @@ class User:
         return cur.fetchall() # if cur.fetchall() else []
     except sql.ProgrammingError:
         raise self.Errors.InvalidDataBaseError("No database selected") if (self._database == None) else self.Errors.InvalidSQLQueryError("Invalid Query")
-
-  # TODO Clones a database
-  # def cloneDatabase(self, initial:str, final:str):
-  #   self.setDatabase("")
-  #   if self.connection:
-  #     cur = self.connection.cursor() 
-  #     cur.execute("create database " + initial)
-  #   self.setDatabase(final)
-  #   if self.connection:
-  #     cur = self.connection.cursor()
-  #     cur.execute("show tables")
-  #     tables = cur.fetchall()
-  #     test: list[tuple[str]] = [("h", )]
-
-  #     if type(tables) == list[tuple[str]]:
-  #       pass
 
   # Errors
   class Errors:

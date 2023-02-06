@@ -3,10 +3,14 @@ import csv
 import os
 
 logs = open("logs.txt", "w")
-logs.write("session started at - " + datetime.datetime.now().strftime("%H:%M:%S"))
+logs.write("session started at - " + datetime.datetime
+           .now()
+           .strftime("%H:%M:%S"))
 logs = open("logs.txt", "a")
 
-A_logs = open("./.admin/" + datetime.datetime.now().strftime("%d-%m-%y") + ".csv", "a")
+A_logs = open("./.admin/" + datetime.datetime
+              .now()
+              .strftime("%d-%m-%y") + ".csv", "a")
 adminLogs = csv.writer(A_logs)
 # adminLogs.writerow(["NAME", "TIME", "ACTIVITY"])
 
@@ -32,4 +36,3 @@ def readLog(name:str) -> list[list[str]]:
   except FileNotFoundError:
     print("file not found")
     return []
-  

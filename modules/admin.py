@@ -3,16 +3,16 @@ import csv
 from modules.logs import writeLog, readLog
 from modules.user import writeUser
 from modules.user import User
+from modules.staticFunctions import printDatabase, printRows
 
 Errors = User.Errors
 
-class Admin:
+class __Admin:
   _user = None
 
   def __init__(self, id:int, passwd:str, user:User) -> None:
     self._user = user
     writeLog("Someone logged in as Admin")
-    pass
 
   def proceed(self) -> None:
     while True:
@@ -29,13 +29,15 @@ class Admin:
         try:
           db = None
           while True:
-            db = str(input(str([self._user.getDatabases()]) + "\nPlease choose a database : "))
+            printDatabase(self._user.getDatabases())
+            db = str(input("\nPlease choose a database : "))
             self._user.setDatabase(db)
             break
           while True:
             try:
               query = str(input("Enter a query : "))
-              print(self._user.query(query))
+              if (query.lower() == "exit"): break
+              printRows(self._user.query(query))
               
             except Errors.InvalidSQLQueryError:
               print("Invalid Query")
@@ -51,10 +53,27 @@ class Admin:
           try:
             open("./.admin/" + fileName + ".csv", "r")
             file = readLog(fileName)
-            for [row] in file:
-              print(row)
+            
+            for row in file:
+              if row:
+                [user, time, status] = row
+                print(user + " | " + time + " | " + status)
+            input("Enter to continue...")
+            break
+
           except FileNotFoundError:
             print("There is no such file")
+
+      if menuChoice == 4 and self._user:
+        while True:
+          host = str(input("Enter new hostname : "))
+          self._user.switchHost("")
+          if self._user.connection:
+            print("Connection established Successfully")
+            pass
+          else: print("Invalid Host")
+
+      if menuChoice == 5: break
  
 def matchData():
   
@@ -75,7 +94,7 @@ def matchData():
               break
             except Errors.InvalidUserError:
               print("Invalid Username or Password")
-        return Admin(adminID, adminPasswd, ur)
+        return __Admin(adminID, adminPasswd, ur)
 
   except ValueError:
     print("Admin ID must be a password")
